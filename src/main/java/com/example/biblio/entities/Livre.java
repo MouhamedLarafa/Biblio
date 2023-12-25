@@ -26,9 +26,9 @@ public class Livre implements Serializable {
 
     String nomAuteur;
 
-    Integer nbCopie;
+    Integer nbExemplaire;
 
-    Integer nbCopieEmprinte;
+    Integer nbExemplaireEmprinte;
 
     @Temporal(TemporalType.DATE)
     Date datePublication;

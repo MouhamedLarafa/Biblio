@@ -11,5 +11,4 @@ import java.util.List;
 public interface ILivreRepository extends JpaRepository<Livre, Integer> {
 
     List<Livre> findAllByCategorie(Categorie categorie);
-
 }

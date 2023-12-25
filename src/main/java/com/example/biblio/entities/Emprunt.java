@@ -24,6 +24,8 @@ public class Emprunt implements Serializable {
     @Temporal(TemporalType.DATE)
     Date dateFin;
 
+    boolean etat = false; // Mazelou ma raj3oouhesh
+
     @ManyToOne
     User user;
 

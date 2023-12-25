@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all">Nouveau Livre Ajouté</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <p>Cher(e) utilisateur(trice),</p>
+    <p>Nous sommes ravis de vous informer qu'un nouveau livre passionnant vient d'être ajouté à notre collection de bibliothèque.</p>
+    <p>Titre du livre : <span style="font-weight: bold" th:text="${titreLivre}">null</span></p>
+    <p>Auteur : <span style="font-weight: bold" th:text="${auteur}">null</span></p>
+    <p>Genre : <span style="font-weight: bold" th:text="${genre}">null</span></p>
+    <p>Année de publication : <span style="font-weight: bold" th:text="${anneePublication}">null</span></p>
+    <p>Ce nouveau livre offre une excellente opportunité d'exploration et de découverte. Nous vous encourageons à venir l'emprunter et à profiter de cette nouvelle addition à notre bibliothèque.</p>
+    <p>Merci de faire partie de notre communauté de lecteurs.</p>
+    <p>Cordialement,</p>
+</body>
+</html>

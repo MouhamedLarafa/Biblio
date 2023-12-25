@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all">Copie Réservée Disponible</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<p>Cher(e) utilisateur(trice),</p>
+<p>Nous sommes heureux de vous informer que la copie que vous avez réservée est maintenant disponible à la bibliothèque.</p>
+<p>Titre du livre : <span style="font-weight: bold" th:text="${titreLivre}">null</span></p>
+<p>Auteur : <span style="font-weight: bold" th:text="${auteur}">null</span></p>
+<p>Genre : <span style="font-weight: bold" th:text="${genre}">null</span></p>
+<p>Année de publication : <span style="font-weight: bold" th:text="${anneePublication}">null</span></p>
+<p>Vous pouvez venir retirer votre copie à la bibliothèque à partir de maintenant. Nous vous rappelons que vous avez un délai pour effectuer le retrait, alors n'oubliez pas de passer prochainement.</p>
+<p>Merci pour votre réservation et votre intérêt pour notre collection.</p>
+<p>Cordialement,</p>
+</body>
+</html>

@@ -13,6 +13,7 @@ import java.util.List;
 public class CategorieServices implements ICategorieServices  {
     @Autowired
     private final ICategorieRepository categorieRepository;
+
     @Override
     public Categorie addOrUpdateCategorie(Categorie categorie) {
         return categorieRepository.save(categorie);
@@ -21,7 +22,6 @@ public class CategorieServices implements ICategorieServices  {
     @Override
     public void deleteCategorie(Integer idCategorie) {
         categorieRepository.deleteById(idCategorie);
-
     }
 
     @Override

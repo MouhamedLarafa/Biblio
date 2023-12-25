@@ -20,13 +20,15 @@ public class Reservation implements Serializable {
     Integer idReservation;
 
     @Temporal(TemporalType.DATE)
-    Date dateReservation;
+    Date dateReservation = new Date(System.currentTimeMillis());
 
     @Temporal(TemporalType.DATE)
     Date dateDebut;
 
     @Temporal(TemporalType.DATE)
     Date dateFin;
+
+    boolean prise = false; // Mazelou ma khdhewhehsh yaani mazelet juste reservation
 
     @ManyToOne
     User user;

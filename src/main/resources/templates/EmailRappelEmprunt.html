@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all">Rappel de remise du livre</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<p>Cher <span style="font-weight: bold" th:text="${namedemandeur}">null</span>,</p>
+<p>Nous espérons que vous allez bien.</p>
+<p>Ceci est un rappel amical de remise du livre que vous avez emprunté à notre bibliothèque. La date de retour prévue était le <span style="font-weight: bold" th:text="${datefin}">null</span>.</p>
+<p>Nous vous prions de bien vouloir retourner le livre dès que possible afin d'éviter tout retard ou pénalité.</p>
+<p>Merci de votre coopération et de votre compréhension.</p>
+<p>Cordialement,</p>
+</body>
+</html>
