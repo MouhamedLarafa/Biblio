@@ -38,7 +38,7 @@ public class LivreServices implements ILivreServices{
         if(categorie!=null){
             livre.setCategorie(categorie);
         }
-
+/*
         Mail mail = new Mail();
         mail.setFrom("larafa755@gmail.com");
         mail.setSubject("Rappel de remise du livre");
@@ -57,10 +57,10 @@ public class LivreServices implements ILivreServices{
             for (User u : users){
                 if (u.getEmail()!=null){
                     mail.setMailTo(u.getEmail());
-                    emailServices.sendEmail(mail,"EmailLivreAjouter.html");
+                  //  emailServices.sendEmail(mail,"EmailLivreAjouter.html");
                 }
             }
-        }
+        }*/
         return livreRepository.save(livre);
     }
 

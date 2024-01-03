@@ -22,13 +22,15 @@ public class Livre implements Serializable {
 
     String titre;
 
-    Integer ISBN;
+    Integer isbn;
 
     String nomAuteur;
 
     Integer nbExemplaire;
 
     Integer nbExemplaireEmprinte;
+
+    byte[] image;
 
     @Temporal(TemporalType.DATE)
     Date datePublication;

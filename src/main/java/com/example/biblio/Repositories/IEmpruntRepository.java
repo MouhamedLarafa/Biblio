@@ -2,6 +2,7 @@ package com.example.biblio.Repositories;
 
 import com.example.biblio.entities.Emprunt;
 import com.example.biblio.entities.Livre;
+import com.example.biblio.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,8 @@ public interface IEmpruntRepository extends JpaRepository<Emprunt, Integer> {
     int countByLivre(Livre livre);
 
     int countByDateDebutBetween(Date dateDebut, Date dateFin);
+
+    List<Emprunt> findAllByUser(User u);
 
 
 }

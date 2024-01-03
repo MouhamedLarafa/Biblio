@@ -36,6 +36,8 @@ public class User implements UserDetails {
     String email;
     String password;
     String numTel;
+    byte[] image;
+
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore

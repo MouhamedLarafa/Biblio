@@ -89,6 +89,12 @@ public class EmpruntServices implements IEmpruntServices{
         return new ResponseEntity<String>("Emprunt retourné avec succès.", HttpStatus.OK);
     }
 
+    @Override
+    public List<Emprunt> getAllByUser(int idUser) {
+        User u = userRepository.findById(idUser).orElseThrow();
+        return empruntRepository.findAllByUser(u);
+    }
+
     @Scheduled(cron = "0 12 * * * *")
     public void rappels() throws MessagingException, jakarta.mail.MessagingException {
 

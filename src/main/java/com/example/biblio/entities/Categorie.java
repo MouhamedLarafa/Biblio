@@ -1,5 +1,6 @@
 package com.example.biblio.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,6 +22,7 @@ public class Categorie implements Serializable {
     String nomCategorie;
 
     @OneToMany(mappedBy = "categorie")
+            @JsonIgnore
     Set<Livre> livres;
 
 }

@@ -1,7 +1,9 @@
 package com.example.biblio.Repositories;
 
+import com.example.biblio.entities.Emprunt;
 import com.example.biblio.entities.Livre;
 import com.example.biblio.entities.Reservation;
+import com.example.biblio.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +24,8 @@ public interface IReservationRepository extends JpaRepository<Reservation, Integ
     int countByPrise(boolean prise);
 
     List<Reservation> findByPriseFalse();
+
+    List<Reservation> findAllByUser(User u);
 
 
 

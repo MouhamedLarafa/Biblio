@@ -72,6 +72,12 @@ public class ReservationServices implements  IReservationServices {
 
     }
 
+    @Override
+    public List<Reservation> getAllByUser(int idUser) {
+        User u = userRepository.findById(idUser).orElseThrow();
+        return reservationRepository.findAllByUser(u);
+    }
+
     private boolean isDateRangeOverlap(Date startDate1, Date endDate1, Date startDate2, Date endDate2) {
         if (startDate1 == null || endDate1 == null || startDate2 == null || endDate2 == null) {
             return false;

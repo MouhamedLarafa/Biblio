@@ -9,10 +9,19 @@ import com.example.biblio.entities.Role;
 import com.example.biblio.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -28,17 +37,32 @@ public class UserServices implements IUserServices {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public AuthenticationResponse register(RegisterRequest request) {
+    public ResponseEntity<?> register(RegisterRequest request) {
         var user = User.builder()
                 .nom(request.getNom())
                 .prenom(request.getPrenom())
                 .email(request.getEmail())
+                .numTel(request.getNumTel())
+                .adresse(request.getAdresse())
+                .dateNaissance(request.getDateNaissance())
+                .image(request.getImage())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
-        userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        User u = userRepository.findByEmail(request.getEmail()).orElse(null);
+        Map<String, String> responseMap = new HashMap<>();
+
+        if(u!=null){
+            String rep = "Email already exist.";
+            responseMap.put("message", rep);
+            return new ResponseEntity<>(responseMap, HttpStatus.OK);
+        }
+        else {
+            userRepository.save(user);
+            String rep = "Add succesfully.";
+            responseMap.put("message", rep);
+            return new ResponseEntity<>(responseMap, HttpStatus.OK);
+        }
     }
 
     @Override
@@ -54,5 +78,19 @@ public class UserServices implements IUserServices {
         System.out.println(user.getIdUser());
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
+    }
+
+    @Override
+    public User getConnectedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User u = userRepository.findByEmail(authentication.getName()).orElseThrow();
+        return u;
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        List<User> users = new ArrayList<>();
+        userRepository.findAll().forEach(users::add);
+        return users;
     }
 }

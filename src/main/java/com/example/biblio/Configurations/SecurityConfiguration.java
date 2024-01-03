@@ -29,7 +29,7 @@ public class SecurityConfiguration {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/authentification/v1/**")
+                .requestMatchers("/authentification/v1/**", "http://localhost:4200/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
