@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -27,16 +25,20 @@ public class ReservationServices implements  IReservationServices {
     private final IReservationRepository reservationRepository;
 
     @Autowired
+    private final ILivreRepository livreRepository;
+
+    @Autowired
     private final IEmpruntRepository empruntRepository;
 
     @Autowired
     private final IUserRepository userRepository;
 
     @Override
-    public ResponseEntity<?> addReservation(Reservation reservation, Livre livre) {
+    public ResponseEntity<?> addReservation(Reservation reservation, Integer idLivre) {
+        Livre livre = livreRepository.findById(idLivre).orElseThrow();
         List<Reservation> reservations = reservationRepository.findAllByLivre(livre);
         List<Emprunt> emprunts = empruntRepository.findAllByLivreAndEtatIsFalse(livre);
-
+        Map<String,String> resp = new HashMap<>();
         Date first = null;
         for (Emprunt e : emprunts) {
             Date endDate = e.getDateFin();
@@ -44,16 +46,20 @@ public class ReservationServices implements  IReservationServices {
                 first = endDate;
             }
         }
-
-        if (reservation.getDateDebut().before(first)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("La premier copie disponnible est en : " + first);
+        if(first!=null){
+            if (reservation.getDateDebut().before(first)) {
+                String res = "La premier copie disponnible est en :" +first;
+                resp.put("message", res);
+                return new ResponseEntity<>(resp,HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
+
 
         for (Reservation r : reservations) {
             if (isDateRangeOverlap(r.getDateDebut(), r.getDateFin(), reservation.getDateDebut(), reservation.getDateFin())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Il existe déjà une réservation pour cette période.");
+                String res = "Il existe déjà une réservation pour cette période.";
+                resp.put("message", res);
+                return new ResponseEntity<>(resp,HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
@@ -67,15 +73,28 @@ public class ReservationServices implements  IReservationServices {
             return ResponseEntity.status(HttpStatus.CREATED).body(reservation);
         }
         else {
-            return new ResponseEntity<String>("Utilisateur non authentifié.", HttpStatus.UNAUTHORIZED);
+            String res = "Utilisateur non authentifié.";
+            resp.put("message", res);
+            return new ResponseEntity<>(resp,HttpStatus.UNAUTHORIZED);
         }
 
+    }
+
+    @Override
+    public ResponseEntity<?> deleteReservation(Integer idReservation) {
+        reservationRepository.deleteById(idReservation);
+        return null;
     }
 
     @Override
     public List<Reservation> getAllByUser(int idUser) {
         User u = userRepository.findById(idUser).orElseThrow();
         return reservationRepository.findAllByUser(u);
+    }
+
+    @Override
+    public List<Reservation> retrieveAll() {
+        return reservationRepository.findAll();
     }
 
     private boolean isDateRangeOverlap(Date startDate1, Date endDate1, Date startDate2, Date endDate2) {

@@ -8,6 +8,7 @@ import com.example.biblio.entities.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.itextpdf.text.DocumentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class AuthenticationControler {
     private final IUserServices userServices;
 
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> register(@RequestParam("register") String requestJson, @RequestParam(value = "file") @Nullable MultipartFile file) throws IOException {
+    public ResponseEntity<?> register(@RequestParam("register") String requestJson, @RequestParam(value = "file") @Nullable MultipartFile file) throws IOException, DocumentException {
         ObjectMapper objectMapper =new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         RegisterRequest req = objectMapper.readValue(requestJson, RegisterRequest.class);
@@ -52,5 +53,10 @@ public class AuthenticationControler {
     @GetMapping("/Allusers")
     public List<User> getAllUsers(){
         return userServices.getAllUser();
+    }
+
+    @PutMapping("/logout")
+    public void logOut() {
+        userServices.logOut();
     }
 }

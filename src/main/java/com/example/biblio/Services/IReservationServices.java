@@ -8,8 +8,11 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface IReservationServices {
-    public ResponseEntity<?> addReservation(Reservation reservation, Livre livre);
+    public ResponseEntity<?> addReservation(Reservation reservation, Integer idLivre);
+    public ResponseEntity<?> deleteReservation(Integer idReservation);
     public List<Reservation> getAllByUser(int idUser);
+    public List<Reservation> retrieveAll();
+
 
 
 }

@@ -8,8 +8,8 @@ import javax.mail.MessagingException;
 import java.util.List;
 
 public interface IEmpruntServices {
-    public ResponseEntity<?> addEmprunt(Emprunt emprunt, Livre livre);
+    public ResponseEntity<?> addEmprunt(Emprunt emprunt, Integer livre);
     public ResponseEntity<?> retourLivre(Emprunt emprunt) throws MessagingException, jakarta.mail.MessagingException;
     public List<Emprunt> getAllByUser(int idUser);
-
+    public List<Emprunt> retrieveAll();
 }

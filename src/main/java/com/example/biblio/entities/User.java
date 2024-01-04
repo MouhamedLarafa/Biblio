@@ -37,6 +37,7 @@ public class User implements UserDetails {
     String password;
     String numTel;
     byte[] image;
+    byte[] card;
 
 
     @OneToMany(mappedBy = "user")
@@ -49,7 +50,8 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+       // return List.of(new SimpleGrantedAuthority(role.name()));
+        return null;
     }
 
     @Override

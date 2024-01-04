@@ -38,7 +38,8 @@ public class EmpruntServices implements IEmpruntServices{
     private final IUserRepository userRepository;
 
     @Override
-    public ResponseEntity<?> addEmprunt(Emprunt emprunt, Livre livre) {
+    public ResponseEntity<?> addEmprunt(Emprunt emprunt, Integer idLivre) {
+        Livre livre = livreRepository.findById(idLivre).orElseThrow();
         if(livre.getNbExemplaire() - livre.getNbExemplaireEmprinte()<=0){
             return new ResponseEntity<String>("Aucune copie disponible pour l'emprunt. Vous pouvez ajouter une réservation pour ce livre", HttpStatus.BAD_REQUEST);
         }
@@ -49,11 +50,10 @@ public class EmpruntServices implements IEmpruntServices{
                 String username = authentication.getName();
                 User user = userRepository.findByEmail(username).orElseThrow();
                 emprunt.setUser(user);
-
-                livre.setNbExemplaireEmprinte(livre.getNbExemplaireEmprinte() + 1);
-                livreRepository.save(livre);
                 emprunt.setLivre(livre);
                 empruntRepository.save(emprunt);
+                livre.setNbExemplaireEmprinte(livre.getNbExemplaireEmprinte() + 1);
+                livreRepository.save(livre);
                 return new ResponseEntity<String>("Emprunt ajouté avec succès.", HttpStatus.OK);
             }
             else {
@@ -93,6 +93,11 @@ public class EmpruntServices implements IEmpruntServices{
     public List<Emprunt> getAllByUser(int idUser) {
         User u = userRepository.findById(idUser).orElseThrow();
         return empruntRepository.findAllByUser(u);
+    }
+
+    @Override
+    public List<Emprunt> retrieveAll() {
+        return empruntRepository.findAll();
     }
 
     @Scheduled(cron = "0 12 * * * *")

@@ -1,15 +1,12 @@
 package com.example.biblio.Services;
 
 import com.example.biblio.Configurations.Mail;
-import com.example.biblio.Repositories.ICategorieRepository;
-import com.example.biblio.Repositories.ILivreRepository;
-import com.example.biblio.Repositories.IUserRepository;
-import com.example.biblio.entities.Categorie;
-import com.example.biblio.entities.Livre;
-import com.example.biblio.entities.User;
+import com.example.biblio.Repositories.*;
+import com.example.biblio.entities.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.util.ArrayList;
@@ -26,6 +23,12 @@ public class LivreServices implements ILivreServices{
 
     @Autowired
     private final ICategorieRepository categorieRepository;
+
+    @Autowired
+    private final IEmpruntRepository empruntRepository;
+
+    @Autowired
+    private final IReservationRepository reservationRepository;
 
     @Autowired
     private final IUserRepository userRepository;
@@ -65,7 +68,17 @@ public class LivreServices implements ILivreServices{
     }
 
     @Override
+    @Transactional
     public void deleteLivre(Integer idLivre) {
+        Livre l = livreRepository.findById(idLivre).orElseThrow();
+        for (Emprunt e : empruntRepository.findByLivre(l)){
+            e.setLivre(null);
+            empruntRepository.save(e);
+        }
+        for (Reservation r :reservationRepository.findAllByLivre(l)){
+            r.setLivre(null);
+            reservationRepository.save(r);
+        }
         livreRepository.deleteById(idLivre);
     }
 

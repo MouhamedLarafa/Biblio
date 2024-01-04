@@ -33,7 +33,7 @@ public class Reservation implements Serializable {
     @ManyToOne
     User user;
 
-    @OneToOne
+    @ManyToOne
     Livre livre;
 
 }

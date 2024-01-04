@@ -20,5 +20,7 @@ public interface IEmpruntRepository extends JpaRepository<Emprunt, Integer> {
 
     List<Emprunt> findAllByUser(User u);
 
+    List<Emprunt> findByLivre(Livre l);
+
 
 }
